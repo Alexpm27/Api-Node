@@ -29,18 +29,18 @@ module.exports.loginuserDBService = (userDetails) => {
       { email: userDetails.email },
       function getresult(errorvalue, result) {
         if (errorvalue) {
-          reject({ status: false, msg: "Datos Invalidos" });
+          reject({ status: false, msg: "invalid data" });
         } else {
           if (result != undefined && result != null) {
             var decrypted = encryptor.decrypt(result.password);
 
             if (decrypted == userDetails.password) {
-              resolve({ status: true, msg: "Usuario Validado" });
+              resolve({ status: true, msg: "Validated user" });
             } else {
-              reject({ status: false, msg: "Falla en validacion de usuario" });
+              reject({ status: false, msg: "Failed to validate user" });
             }
           } else {
-            reject({ status: false, msg: "Detalles de usuario invalido" });
+            reject({ status: false, msg: "Invalid user details" });
           }
         }
       }
@@ -104,6 +104,24 @@ module.exports.listAllUsers = () => {
     userModel.collection(function result(err, users) {
       if (err) {
         reject({ status: false, msg: "invalid data" });
+      } else {
+        if (users != undefined && users != null) {
+          resolve({ status: true, msg: users });
+        } else {
+          resolve(false);
+        }
+      }
+    });
+  });
+};
+
+
+module.exports.updateById = (userId, newData) => {
+  return new Promise(function myFn(resolve, reject) {
+    userModel.findOneAndUpdate({ _id: userId },
+    { $set: newData }, function result(err, users) {
+      if (err) {
+        resolve({ status: false, msg: "invalid data" });
       } else {
         if (users != undefined && users != null) {
           resolve({ status: true, msg: users });

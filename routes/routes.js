@@ -14,5 +14,7 @@ router.route('/user/delete/:id').delete(userController.deleteUserById);
 
 router.route('/user/delete/email/:email').delete(userController.deleteUserByEmail);
 
+router.route('/user/update/:id').put(userController.updateById);
+
 router.route('/user/list').get(userController.listAllUsers);
 module.exports = router;

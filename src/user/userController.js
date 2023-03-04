@@ -7,9 +7,9 @@ var createUserControllerFunc = async (req, res) => {
     console.log(status);
 
     if (status) {
-      res.send({ status: true, message: "Usuario creado" });
+      res.send({ status: true, message: "User created" });
     } else {
-      res.send({ status: false, message: "Error creando usuario" });
+      res.send({ status: false, message: "Error creating user" });
     }
   } catch (err) {
     console.log(err);
@@ -41,7 +41,7 @@ var findUserById = async (req, res) => {
     if (result.status) {
       res.send({ status: true, message: result.msg });
     } else {
-      res.send({ status: false, message: "Usuario no extiste" });
+      res.send({ status: false, message: "User does not exist" });
     }
   } catch (err) {
     console.log(err);
@@ -54,9 +54,9 @@ var deleteUserById = async (req, res) => {
     console.log(status);
 
     if (status) {
-      res.send({ status: true, message: "Usuario eliminado" });
+      res.send({ status: true, message: "User deteted" });
     } else {
-      res.send({ status: false, message: "Usuario no extiste" });
+      res.send({ status: false, message: "User does not exist" });
     }
   } catch (err) {
     console.log(err);
@@ -70,9 +70,27 @@ var deleteUserByEmail = async (req, res) => {
     console.log(status);
 
     if (status) {
-      res.send({ status: true, message: "Usuario eliminado" });
+      res.send({ status: true, message: "Usuario deleted" });
     } else {
-      res.send({ status: false, message: "Usuario no extiste" });
+      res.send({ status: false, message: "User does not exist" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+var updateById = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    console.log(req.body);
+    
+    var status = await userService.updateById(req.params.id, req.body);
+    console.log(status);
+
+    if (status) {
+      res.send({ status: true, message: "user update" });
+    } else {
+      res.send({ status: false, message: "Error creating user" });
     }
   } catch (err) {
     console.log(err);
@@ -90,7 +108,7 @@ var listAllUsers = async (req, res) => {
     if (result.status) {
       res.send({ status: true, message: result.msg });
     } else {
-      res.send({ status: false, message: "Usuario no extiste" });
+      res.send({ status: false, message: "Users do not exist" });
     }
 
 
@@ -99,11 +117,13 @@ var listAllUsers = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createUserControllerFunc,
   loginUserControllerFunc,
   findUserById,
   deleteUserById,
   deleteUserByEmail,
-  listAllUsers
+  listAllUsers,
+  updateById
 };
